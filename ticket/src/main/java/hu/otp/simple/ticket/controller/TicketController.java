@@ -9,12 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
+import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.ticket.service.EventService;
 import hu.otp.simple.ticket.service.impl.EventServiceImpl;
 
@@ -45,6 +47,22 @@ public class TicketController {
 			log.info("Not found event for id = {}", id);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(event);
+	}
+
+	@GetMapping("/reserve")
+	public ResponseEntity<ReserveDto> reserveEvent(@RequestParam("EventId") long eventId, @RequestParam("SeatId") long seatId,
+			@RequestParam("CardId") long cardId) {
+		log.info("Pay attempt with seat reservation. EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
+
+		ReserveDto reserve = eventService.payAttempt(eventId, seatId, cardId);
+		if (reserve == null) {
+
+			log.info("Sikertelen hely foglalás EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(reserve);
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(reserve);
 
 	}
+
 }

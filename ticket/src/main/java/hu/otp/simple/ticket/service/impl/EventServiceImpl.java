@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
+import hu.otp.simple.common.domain.SeatInfo;
+import hu.otp.simple.common.dtos.ReserveDto;
+import hu.otp.simple.ticket.clients.CoreClient;
 import hu.otp.simple.ticket.clients.PartnerClient;
 import hu.otp.simple.ticket.service.EventService;
 
@@ -18,6 +21,9 @@ public class EventServiceImpl implements EventService {
 
 	@Autowired
 	private PartnerClient partnerClient;
+
+	@Autowired
+	private CoreClient coreClient;
 
 	@Override
 	public EventInfo queryEventInfoFromPartnerByEventId(long eventId) {
@@ -31,5 +37,20 @@ public class EventServiceImpl implements EventService {
 		log.info("Query all events.");
 		return partnerClient.queryEvents();
 	}
+
+	@Override
+	public ReserveDto reserveAndPay(long eventId, long seatId, long cardId) {
+
+		// TODO: check payment first, use core method for check
+		// TODO: than try to reserve, use parner's method for check
+		EventInfo event = queryEventInfoFromPartnerByEventId(eventId);
+
+		return null;
+	}
+
+	// private boolean checkSeat(long seatId, List<SeatInfo> seats) {
+	// seats.stream().anyMatch(t->seatId. t.getId())
+	//
+	// }
 
 }

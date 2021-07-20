@@ -4,6 +4,7 @@ import java.util.List;
 
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
+import hu.otp.simple.common.dtos.ReserveDto;
 
 /**
  * Event service for query event informations.
@@ -26,5 +27,7 @@ public interface EventService {
 	 * @return <code>lisr</code> of EventInfo
 	 */
 	List<Event> queryEventsFromPartner();
+
+	ReserveDto reserveAndPay(long eventId, long seatId, long cardId);
 
 }
