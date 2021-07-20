@@ -1,21 +1,14 @@
 package hu.otp.simple.partner;
 
-public class ReservationException extends RuntimeException {
+import hu.otp.simple.common.AbstractErrorMessageException;
+import hu.otp.simple.common.ErrorMessages;
+
+public class ReservationException extends AbstractErrorMessageException {
 	/** Serial */
 	private static final long serialVersionUID = -7157477661460467110L;
-	int ErrorCode;
 
-	public int getErrorCode() {
-		return ErrorCode;
-	}
-
-	public void setErrorCode(int errorCode) {
-		ErrorCode = errorCode;
-	}
-
-	public ReservationException(int errorCode) {
-		super();
-		ErrorCode = errorCode;
+	public ReservationException(ErrorMessages errorMessage) {
+		super(errorMessage);
 	}
 
 }

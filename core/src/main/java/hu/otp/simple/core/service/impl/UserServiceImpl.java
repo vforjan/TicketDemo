@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hu.otp.simple.core.domain.ErrorMessages;
+import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.core.domain.User;
 import hu.otp.simple.core.domain.UserBankCard;
 import hu.otp.simple.core.domain.UserDevice;

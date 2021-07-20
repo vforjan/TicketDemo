@@ -36,6 +36,8 @@
 		<module>ticket</module>
 		<module>partner</module>
 		<module>core</module>
+	
+		<module>common</module>
 	</modules>
 
 </project>

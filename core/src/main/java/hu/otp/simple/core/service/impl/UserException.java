@@ -1,6 +1,6 @@
 package hu.otp.simple.core.service.impl;
 
-import hu.otp.simple.core.domain.ErrorMessages;
+import hu.otp.simple.common.ErrorMessages;
 
 public class UserException extends RuntimeException {
 

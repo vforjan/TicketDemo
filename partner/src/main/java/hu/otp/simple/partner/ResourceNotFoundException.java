@@ -1,6 +1,8 @@
 package hu.otp.simple.partner;
 
-public class ResourceNotFoundException extends RuntimeException {
+import hu.otp.simple.common.AbstractErrorMessageException;
+
+public class ResourceNotFoundException extends AbstractErrorMessageException {
 
 	/** Serial */
 	private static final long serialVersionUID = -6011643737729501390L;
