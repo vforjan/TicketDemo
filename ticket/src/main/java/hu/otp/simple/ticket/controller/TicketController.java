@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.ticket.service.EventService;
 import hu.otp.simple.ticket.service.impl.EventServiceImpl;
@@ -26,9 +27,9 @@ public class TicketController {
 	private EventService eventService;
 
 	@GetMapping("/getEvents")
-	public ResponseEntity<List<EventInfo>> getEvents() {
+	public ResponseEntity<List<Event>> getEvents() {
 		log.info("Események lekérdezése.");
-		List<EventInfo> events = eventService.queryEventsFromPartner();
+		List<Event> events = eventService.queryEventsFromPartner();
 		if (CollectionUtils.isEmpty(events)) {
 			log.info("The partner has no events.");
 		}

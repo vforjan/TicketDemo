@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -15,18 +16,30 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventReserve;
+import hu.otp.simple.common.domain.EventWrapper;
 import hu.otp.simple.common.domain.SeatInfo;
 import hu.otp.simple.common.exceptions.ResourceNotFoundException;
 
 public class ResourceHandlingUtils {
 
 	@Value("classpath:data/getEvents.json")
-	private static Resource eventsResource;
+	public static Resource eventsResource;
 
-	public static String getContentOfEventsFromFileResource() {
-		return getContentFromFileResource(eventsResource);
+	public static List<Event> getContentOfEventsFromFileResource() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		EventWrapper wrapper = null;
+		// System.out.println(eventsResource.getFilename());
 
+		String jsonInput = getContentFromFileResource(new ClassPathResource("data/getEvents.json"));
+
+		try {
+			wrapper = objectMapper.readValue(jsonInput, EventWrapper.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return wrapper.getData();
 	}
 
 	public static String getContentOfEventByIdFromFileResource(long id) {

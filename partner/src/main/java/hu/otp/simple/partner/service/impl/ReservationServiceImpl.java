@@ -7,9 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.domain.SeatInfo;
 import hu.otp.simple.common.dtos.ReserveDto;

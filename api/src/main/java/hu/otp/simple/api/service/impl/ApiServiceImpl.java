@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import hu.otp.simple.api.client.CoreClient;
 import hu.otp.simple.api.service.ApiService;
 import hu.otp.simple.common.ErrorMessages;
-import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
 import hu.otp.simple.common.exceptions.UserException;
@@ -22,18 +21,6 @@ public class ApiServiceImpl implements ApiService {
 
 	@Autowired
 	private CoreClient coreClient;
-
-	@Override
-	public List<EventInfo> getEvents() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public EventInfo getEvent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public UserValidationDto validateUser(String token) {

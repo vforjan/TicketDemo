@@ -1,17 +1,19 @@
 package hu.otp.simple.partner.Controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.partner.service.ReservationService;
 import hu.otp.simple.partner.utils.ResourceHandlingUtils;
@@ -26,9 +28,9 @@ public class PartnerController {
 	private ReservationService reservationService;
 
 	@GetMapping("/getEvents")
-	public ResponseEntity<String> getEvents() {
+	public ResponseEntity<List<Event>> getEvents() {
 		log.info("Események lekérdezése.");
-		String content = ResourceHandlingUtils.getContentOfEventsFromFileResource();
+		List<Event> content = ResourceHandlingUtils.getContentOfEventsFromFileResource();
 		// TODO validation
 		return ResponseEntity.status(HttpStatus.OK).body(content);
 	}

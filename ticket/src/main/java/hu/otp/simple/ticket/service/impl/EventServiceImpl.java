@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.ticket.clients.PartnerClient;
 import hu.otp.simple.ticket.service.EventService;
@@ -26,7 +27,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<EventInfo> queryEventsFromPartner() {
+	public List<Event> queryEventsFromPartner() {
 		log.info("Query all events.");
 		return partnerClient.queryEvents();
 	}

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 
 @Service
@@ -19,7 +20,7 @@ public class TicketClient {
 	@Value("${restclient.url.ticket}")
 	private String ticketUrl;
 
-	public List<EventInfo> queryEvents() {
+	public List<Event> queryEvents() {
 
 		String url = ticketUrl + "/getEvents";
 
@@ -29,9 +30,9 @@ public class TicketClient {
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
-		HttpEntity<EventInfo[]> response = restTemplate.getForEntity(builder.build().encode().toUri(), EventInfo[].class);
+		HttpEntity<Event[]> response = restTemplate.getForEntity(builder.build().encode().toUri(), Event[].class);
 
-		EventInfo[] responseArray = response.getBody();
+		Event[] responseArray = response.getBody();
 		if (responseArray != null && responseArray.length > 0) {
 
 			return Arrays.asList(responseArray);

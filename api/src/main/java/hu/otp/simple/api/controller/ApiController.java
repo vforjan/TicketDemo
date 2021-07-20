@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.otp.simple.api.service.ApiService;
+import hu.otp.simple.api.service.EventService;
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
@@ -26,10 +28,13 @@ public class ApiController {
 	@Autowired
 	private ApiService apiService;
 
+	@Autowired
+	private EventService eventService;
+
 	@GetMapping("/getEvents")
-	public ResponseEntity<List<EventInfo>> getEvents() {
+	public ResponseEntity<List<Event>> getEvents() {
 		log.info("Események lekérdezése.");
-		List<EventInfo> events = apiService.getEvents();
+		List<Event> events = eventService.queryEvents();
 		// TODO validation
 		return ResponseEntity.status(HttpStatus.OK).body(events);
 	}
@@ -37,7 +42,7 @@ public class ApiController {
 	@GetMapping("/getEvent")
 	public ResponseEntity<EventInfo> getEvent(@RequestParam("id") long id) {
 		log.info("Esemény részleteinek lekérdezése. Id= {}", id);
-		EventInfo event = apiService.getEvent();
+		EventInfo event = eventService.queryEventInfoByEventId(id);
 		return ResponseEntity.status(HttpStatus.OK).body(event);
 
 	}

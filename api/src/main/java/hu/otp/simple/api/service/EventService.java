@@ -2,6 +2,7 @@ package hu.otp.simple.api.service;
 
 import java.util.List;
 
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 
 /**
@@ -24,6 +25,6 @@ public interface EventService {
 	 * 
 	 * @return <code>lisr</code> of EventInfo
 	 */
-	List<EventInfo> queryEvents();
+	List<Event> queryEvents();
 
 }

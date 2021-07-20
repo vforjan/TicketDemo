@@ -8,10 +8,6 @@ import hu.otp.simple.common.dtos.UserValidationDto;
 
 public interface ApiService {
 
-	List<EventInfo> getEvents();
-
-	EventInfo getEvent();
-
 	UserValidationDto validateUser(String token);
 
 	ReserveDto payAttempt(long eventId, long seatId, long cardId);

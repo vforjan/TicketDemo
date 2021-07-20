@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import hu.otp.simple.api.client.TicketClient;
 import hu.otp.simple.api.service.EventService;
+import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 
 @Service
@@ -26,7 +27,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<EventInfo> queryEvents() {
+	public List<Event> queryEvents() {
 		log.info("Query all events.");
 		return ticketClient.queryEvents();
 	}
