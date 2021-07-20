@@ -52,14 +52,10 @@ public class CoreController {
 	}
 
 	@GetMapping("/cardvalidation")
-	public ResponseEntity checkCard() {
+	public boolean checkCard() {
 
 		User user = userRepository.findByUserId(1000);
-		if (userService.isUserCardOwner(user, "C0001")) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+		return userService.isUserCardOwner(user, "C0001");
 
 	}
 

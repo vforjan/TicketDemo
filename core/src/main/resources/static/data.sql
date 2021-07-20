@@ -24,9 +24,9 @@ CREATE TABLE user_token (
 
 CREATE TABLE user_bank_card (
   id INT AUTO_INCREMENT  PRIMARY KEY,
-  userId INT NOT NULL,
-  cardId VARCHAR(100) NOT NULL, 
-  cardNumber BIGINT NOT NULL,
+  user_id INT NOT NULL,
+  card_id VARCHAR(100) NOT NULL, 
+  card_number BIGINT NOT NULL,
   cvc INT NOT NULL,
   name VARCHAR(250) NOT NULL,
   amount INT NOT NULL,
@@ -53,7 +53,7 @@ INSERT INTO user_token (user_id, token) VALUES
 (1000,'dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjBGMTY3NEJEMTlEM0JCREQ0QzM5RTE0NzM0RkZCODc2'),
 (1000,'dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjNBRTVFOTY1OEZCRDdENDA0OEJENDA4MjBCN0QyMjdE');
 
-INSERT INTO user_bank_card (userId, cardId, cardNumber, cvc, name, amount, currency) VALUES 
+INSERT INTO user_bank_card (user_id, card_id, card_number, cvc, name, amount, currency) VALUES 
 (1000,'C0001',5299706965433676,123,'Teszt Aladár',1000,'HUF'),
 (2000,'C0002',5390508354245119,456,'Teszt Benedek',2000,'HUF'),
 (3000,'C0003',4929088924014470,789,'Teszt Cecília',3000,'HUF');
