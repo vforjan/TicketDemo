@@ -4,18 +4,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import hu.otp.simple.common.dtos.UserValidationDto;
 import hu.otp.simple.core.domain.User;
 import hu.otp.simple.core.repository.UserRepository;
 import hu.otp.simple.core.service.UserService;
 
-// @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/core")
 public class CoreController {
@@ -40,14 +40,12 @@ public class CoreController {
 
 	}
 
-	@GetMapping("/token")
-	public ResponseEntity<User> checkToken() {
+	@GetMapping("/validate-token")
+	public ResponseEntity<UserValidationDto> checkToken(@RequestParam("token") String token) {
 
-		String token = "dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjNBRTVFOTY1OEZCRDdENDA0OEJENDA4MjBCN0QyMjdE";
+		UserValidationDto dto = userService.validateUserByUserToken(token);
 
-		User user = userService.validateUserByUserToken(token);
-
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		return new ResponseEntity<>(dto, HttpStatus.OK);
 
 	}
 

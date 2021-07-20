@@ -1,4 +1,4 @@
-package hu.otp.simple.partner.Controller;
+package hu.otp.simple.api.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.dtos.ReservationErrorDto;
 import hu.otp.simple.common.exceptions.ReservationException;
 import hu.otp.simple.common.exceptions.ResourceNotFoundException;
+import hu.otp.simple.common.exceptions.UserException;
 
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
@@ -28,6 +30,12 @@ public class ExceptionHandlerAdvice {
 	public ResponseEntity<String> handleExceptionParse(ParseException e) {
 		log.info("Hiba az események lekérdezésénél.");
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body("A kért esemény nem található! - Parser hiba");
+	}
+
+	@ExceptionHandler(UserException.class)
+	public ResponseEntity<ErrorMessages> handleUserException(UserException e) {
+		log.info("Hiba a felhasználó validálása során.: {}", e.getErrorMessage().getSimpleMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getErrorMessage());
 	}
 
 	@ExceptionHandler(ReservationException.class)

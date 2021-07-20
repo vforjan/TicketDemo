@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.otp.simple.common.ErrorMessages;
+import hu.otp.simple.common.dtos.UserValidationDto;
+import hu.otp.simple.common.exceptions.UserException;
 import hu.otp.simple.core.domain.User;
 import hu.otp.simple.core.domain.UserBankCard;
 import hu.otp.simple.core.domain.UserDevice;
@@ -37,48 +39,60 @@ public class UserServiceImpl implements UserService {
 	private UserTokenRepository userTokenRepository;
 
 	@Override
-	public User validateUserByUserToken(String token) {
-		User user1 = userRepository.findByUserId(1000);
-		System.out.println(user1.getEmail());
-
-		log.debug(token);
+	public UserValidationDto validateUserByUserToken(String token) {
+		UserValidationDto userDto = new UserValidationDto();
+		userDto.setToken(token);
+		log.info("Validate user token.");
 		if (token.isEmpty()) {
-			log.error("Helytelen UserToken");
-			return null;
+			log.warn("Helytelen UserToken");
+			userDto.setOptionalError(ErrorMessages.NOT_FOUND_TOKEN);
+			userDto.setSuccess(false);
+			return userDto;
 		}
 
-		ValidationDto dto = ValidationUtils.getEncodedDataFromToken(token);
-		System.out.println(dto);
+		ValidationDto validationDto = ValidationUtils.getEncodedDataFromToken(token);
 
-		if (dto.getUserId() < 0) {
-			log.error("Helytelen UserId");
-			return null;
+		if (validationDto.getUserId() < 0) {
+			log.warn("Helytelen UserId");
+			userDto.setOptionalError(ErrorMessages.USER_ID_NOT_FOUND);
+			userDto.setSuccess(false);
+			return userDto;
 		}
 
-		User user = userRepository.findByUserId(dto.getUserId());
+		User user = userRepository.findByUserId(validationDto.getUserId());
 		if (user == null) {
-			log.error("Nem található felhasználó.");
-			return null;
+			log.warn("Nem található felhasználó.");
+			userDto.setOptionalError(ErrorMessages.USER_NOT_FOUND);
+			userDto.setSuccess(false);
+			return userDto;
 		}
 
-		List<UserToken> tokens = userTokenRepository.findByUserId(dto.getUserId());
+		List<UserToken> tokens = userTokenRepository.findByUserId(validationDto.getUserId());
 		if (!isTokenValid(tokens, token)) {
-			log.error("Lejárt token");
-			return null;
+			log.warn("Lejárt token. UserId = {}", validationDto.getUserId());
+			userDto.setOptionalError(ErrorMessages.TOKEN_EXPIRED);
+			userDto.setSuccess(false);
+			return userDto;
 		}
 
-		UserDevice userDevice = userDeviceRepository.findByUserIdAndDeviceHash(dto.getUserId(), dto.getDeviceHash());
+		UserDevice userDevice = userDeviceRepository.findByUserIdAndDeviceHash(validationDto.getUserId(), validationDto.getDeviceHash());
 
 		if (userDevice == null) {
-			log.info("Ismeretlen készülék");
-			return null;
+			log.warn("Ismeretlen készülék, deviceHash = {}", validationDto.getDeviceHash());
+			log.warn("Lejárt token. UserId = {}", validationDto.getUserId());
+			userDto.setOptionalError(ErrorMessages.DEVICE_UNKNOWN);
+			userDto.setSuccess(false);
+			return userDto;
 		}
 
-		if (user.getEmail().equals(dto.getEmail())) {
-			return user;
+		if (user.getEmail().equals(validationDto.getEmail())) {
+			userDto.setSuccess(true);
+			return userDto;
+		} else {
+			userDto.setOptionalError(ErrorMessages.EMAIL_MISMATCH);
+			userDto.setSuccess(false);
+			return userDto;
 		}
-
-		return null;
 	}
 
 	@Override

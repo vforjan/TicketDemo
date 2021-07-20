@@ -1,4 +1,4 @@
-package hu.otp.simple.partner.Controller;
+package hu.otp.simple.common.dtos;
 
 public class ReservationErrorDto {
 

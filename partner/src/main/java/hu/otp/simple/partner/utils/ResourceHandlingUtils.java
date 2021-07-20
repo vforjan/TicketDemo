@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hu.otp.simple.common.domain.EventReserve;
 import hu.otp.simple.common.domain.SeatInfo;
-import hu.otp.simple.partner.ResourceNotFoundException;
+import hu.otp.simple.common.exceptions.ResourceNotFoundException;
 
 public class ResourceHandlingUtils {
 

@@ -1,4 +1,4 @@
-package hu.otp.simple.partner;
+package hu.otp.simple.common.exceptions;
 
 import hu.otp.simple.common.AbstractErrorMessageException;
 import hu.otp.simple.common.ErrorMessages;

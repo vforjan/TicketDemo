@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.domain.SeatInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
-import hu.otp.simple.partner.ReservationException;
+import hu.otp.simple.common.exceptions.ReservationException;
 import hu.otp.simple.partner.service.ReservationService;
 import hu.otp.simple.partner.utils.ResourceHandlingUtils;
 
