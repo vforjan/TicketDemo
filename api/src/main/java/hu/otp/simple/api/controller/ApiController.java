@@ -34,19 +34,19 @@ public class ApiController {
 		return ResponseEntity.status(HttpStatus.OK).body(events);
 	}
 
-	@GetMapping("/validateToken")
-	public ResponseEntity<UserValidationDto> validate() {
-		String token = "dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjNBRTVFOTY1OEZCRDdENDA0OEJENDA4MjBCN0QyMjdE";
-		UserValidationDto dto = apiService.validateUser(token);
-		return ResponseEntity.status(HttpStatus.OK).body(dto);
-	}
-
 	@GetMapping("/getEvent")
 	public ResponseEntity<EventInfo> getEvent(@RequestParam("id") long id) {
 		log.info("Esemény részleteinek lekérdezése. Id= {}", id);
 		EventInfo event = apiService.getEvent();
 		return ResponseEntity.status(HttpStatus.OK).body(event);
 
+	}
+
+	@GetMapping("/validateToken")
+	public ResponseEntity<UserValidationDto> validate() {
+		String token = "dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjNBRTVFOTY1OEZCRDdENDA0OEJENDA4MjBCN0QyMjdE";
+		UserValidationDto dto = apiService.validateUser(token);
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
 	@PostMapping("/pay")

@@ -34,7 +34,6 @@ public class CoreClient {
 	public UserValidationDto validateUserToken(String token) {
 
 		String url = coreUrl + "/validate-token";
-		System.out.println(url);
 
 		RestTemplate restTemplate = new RestTemplate();
 

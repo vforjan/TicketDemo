@@ -7,8 +7,8 @@
 		<artifactId>TicketDemo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
-	
+
+
 	<groupId>hu.otp.simple</groupId>
 	<artifactId>ticket</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -36,6 +36,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>hu.otp.simple</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
