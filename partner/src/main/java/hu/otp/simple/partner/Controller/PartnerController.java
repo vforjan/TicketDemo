@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,9 +37,9 @@ public class PartnerController {
 
 	}
 
-	@GetMapping("/reserve")
-	public ResponseEntity<Reserve> getEvent() {
-		Reserve reserve = reservationService.reserve(new Long(2), new Long(3));
+	@PostMapping("/reserve")
+	public ResponseEntity<Reserve> getEvent(@RequestParam("EventId") long eventId, @RequestParam("SeatId") long seatId) {
+		Reserve reserve = reservationService.reserve(eventId, seatId);
 		if (reserve == null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(reserve);
 		}
