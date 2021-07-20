@@ -1,4 +1,4 @@
-package hu.otp.simple.partner.domain;
+package hu.otp.simple.common.domain;
 
 public class SeatInfo {
 

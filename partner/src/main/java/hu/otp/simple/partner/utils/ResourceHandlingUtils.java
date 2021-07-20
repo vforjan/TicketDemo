@@ -15,9 +15,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import hu.otp.simple.common.domain.EventReserve;
+import hu.otp.simple.common.domain.SeatInfo;
 import hu.otp.simple.partner.ResourceNotFoundException;
-import hu.otp.simple.partner.domain.EventReserve;
-import hu.otp.simple.partner.domain.SeatInfo;
 
 public class ResourceHandlingUtils {
 

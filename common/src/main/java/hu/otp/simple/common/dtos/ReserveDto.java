@@ -1,11 +1,11 @@
-package hu.otp.simple.partner.domain;
+package hu.otp.simple.common.dtos;
 
-public class Reserve {
+public class ReserveDto {
 
 	private Long reserver;
 	private boolean success;
 
-	public Reserve(Long reserver, boolean success) {
+	public ReserveDto(Long reserver, boolean success) {
 		super();
 		this.reserver = reserver;
 		this.success = success;

@@ -1,9 +1,9 @@
 package hu.otp.simple.partner.service;
 
-import hu.otp.simple.partner.domain.Reserve;
+import hu.otp.simple.common.dtos.ReserveDto;
 
 public interface ReservationService {
 
-	public Reserve reserve(long eventId, long seatId);
+	public ReserveDto reserveDto(long eventId, long seatId);
 
 }
