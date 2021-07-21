@@ -23,6 +23,14 @@ import hu.otp.simple.core.repository.UserRepository;
 import hu.otp.simple.core.repository.UserTokenRepository;
 import hu.otp.simple.core.service.UserService;
 
+/**
+ * Implementation of UserService interface.
+ * 
+ * Service for user and user's card validation.
+ * 
+ * @author vforjan
+ *
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -119,7 +127,7 @@ public class UserServiceImpl implements UserService {
 				return dto;
 			}
 
-			if (checkIsUserCardOwner(validatedUser, cardId)) {
+			if (!checkIsUserCardOwner(validatedUser, cardId)) {
 				log.warn("A felhasználó nem rendelkezik ilyen kártyával. UserId = {}, CardId = {}", validatedUser.getUserId(), cardId);
 				dto.setSuccess(false);
 				dto.setOptionalError(ErrorMessages.CARD_AND_USER_NOT_MATCH);
@@ -151,6 +159,13 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	/**
+	 * Check the actual tokens against the user token to check the actul tokens validation.
+	 * 
+	 * @param tokens the tokens
+	 * @param actualToken the actual token
+	 * @return <code>true</code> if the actual token is valid<code>false</code>
+	 */
 	private boolean isTokenValid(List<UserToken> tokens, String actualToken) {
 		for (UserToken userToken : tokens) {
 			if (userToken.getToken().equals(actualToken)) {
@@ -160,6 +175,14 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	/**
+	 * Check if a card belongs to an actual user.
+	 * 
+	 * @param user the user
+	 * @param cardId the card ID
+	 * @return <code>true</code> if the card belongs to the actual user, otherwise <code>false</code>
+	 * @throws UserException
+	 */
 	private boolean checkIsUserCardOwner(User user, String cardId) throws UserException {
 
 		Assert.notNull(user, "User can't be null");
@@ -168,16 +191,26 @@ public class UserServiceImpl implements UserService {
 		UserBankCard card = userBankCardsRepository.findByCardId(cardId);
 
 		if (card == null) {
+			log.warn("A kártya nem található.");
 			throw new UserException(ErrorMessages.CARD_NOT_FOUND);
 		}
 		if (card.getUserId().equals(user.getUserId())) {
+			log.info("Felhasználói kártya ellenőrizve.");
 			return true;
 		} else {
+			log.warn("A kártya nem ehhez a felhasználóhoz tartozik. UserId = {}, cardId = {} ", user.getUserId(), card.getCardId());
 			throw new UserException(ErrorMessages.CARD_AND_USER_NOT_MATCH);
 		}
 
 	}
 
+	/**
+	 * Check is a user card has coverage for a transaction.
+	 * 
+	 * @param price the needeable amount of coverage
+	 * @param cardId the card id
+	 * @return <code>true</code> if the card has enough amount of coverage otherwise <code>false</code>
+	 */
 	private boolean checkCardCoverage(int price, String cardId) {
 
 		if (cardId != null) {
@@ -195,6 +228,12 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	/**
+	 * Get validated user from a user token.
+	 * 
+	 * @param token the user token
+	 * @return the validated user entity
+	 */
 	private User getValidatedUserFromToken(String token) {
 		UserValidationDto userValidationDto = validateUserByUserToken(token);
 		if (!userValidationDto.isSuccess()) {

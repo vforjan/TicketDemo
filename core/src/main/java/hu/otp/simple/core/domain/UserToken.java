@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * user token entity.
+ * User token entity.
  * 
  * @author vforjan
  *

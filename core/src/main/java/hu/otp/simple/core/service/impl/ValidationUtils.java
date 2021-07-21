@@ -2,11 +2,22 @@ package hu.otp.simple.core.service.impl;
 
 import java.util.Base64;
 
-import hu.otp.simple.core.domain.UserToken;
 import hu.otp.simple.core.domain.ValidationDto;
 
+/**
+ * Validation util class.
+ * 
+ * @author vforjan
+ *
+ */
 public class ValidationUtils {
 
+	/**
+	 * Get the encoded date from the given user token.
+	 * 
+	 * @param token the actual Base64 decoded token
+	 * @return the user informations represented by a <code>ValidationDto</code>
+	 */
 	public static ValidationDto getEncodedDataFromToken(String token) {
 
 		byte[] decodedBytes = Base64.getDecoder().decode(token);

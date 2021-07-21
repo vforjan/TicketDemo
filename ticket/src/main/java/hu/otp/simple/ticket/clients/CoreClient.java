@@ -44,7 +44,6 @@ public class CoreClient {
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("token", token);
 
-		HttpEntity<?> entity = new HttpEntity<>(headers);
 		HttpEntity<UserValidationDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), UserValidationDto.class);
 
 		return response.getBody();
@@ -70,8 +69,6 @@ public class CoreClient {
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("token", token).queryParam("cardId", cardId)
 				.queryParam("payment", payment);
-
-		HttpEntity<?> entity = new HttpEntity<>(headers);
 
 		HttpEntity<UserPaymentDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), UserPaymentDto.class);
 		return response.getBody();

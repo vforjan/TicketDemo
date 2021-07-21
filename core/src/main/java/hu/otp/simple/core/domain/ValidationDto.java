@@ -1,5 +1,11 @@
 package hu.otp.simple.core.domain;
 
+/**
+ * Validation DTO for user token validation.
+ * 
+ * @author vforjan
+ *
+ */
 public class ValidationDto {
 
 	private String email;
