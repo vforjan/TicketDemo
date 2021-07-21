@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import hu.otp.simple.common.dtos.ReservationErrorDto;
+import hu.otp.simple.common.exceptions.EventException;
 import hu.otp.simple.common.exceptions.ReservationException;
 
 @ControllerAdvice
@@ -22,4 +23,13 @@ public class ExceptionHandlerAdvice {
 		ReservationErrorDto dto = new ReservationErrorDto(e.getErrorMessage().getCode());
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(dto);
 	}
+
+	@ExceptionHandler(EventException.class)
+	public ResponseEntity<ReservationErrorDto> handleEventException(ReservationException e) {
+
+		log.info("Hiba az események lekérdezésénél! {}", e.getErrorMessage().getSimpleMessage());
+		ReservationErrorDto dto = new ReservationErrorDto(e.getErrorMessage().getCode());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dto);
+	}
+
 }

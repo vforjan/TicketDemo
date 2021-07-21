@@ -16,10 +16,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.domain.EventReserve;
 import hu.otp.simple.common.domain.EventWrapper;
+import hu.otp.simple.common.exceptions.ReservationException;
 import hu.otp.simple.common.exceptions.ResourceNotFoundException;
 
 public class ResourceHandlingUtils {
@@ -45,7 +47,6 @@ public class ResourceHandlingUtils {
 			reserve = objectMapper.readValue(jsonInput, EventReserve.class);
 		} catch (IOException e) {
 			return null;
-			// throw new ResourceNotFoundException("eventId =" + eventId);
 		}
 		return reserve.getData();
 
@@ -64,9 +65,14 @@ public class ResourceHandlingUtils {
 
 	private static String getContentOfEventByIdFromFileResource(long id) {
 		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		Resource resource = resourceLoader.getResource("classpath:/data/getEvent" + id + ".json");
-		return getContentFromFileResource(resource);
-
+		String content = null;
+		try {
+			Resource resource = resourceLoader.getResource("classpath:/data/getEvent" + id + ".json");
+			content = getContentFromFileResource(resource);
+		} catch (ResourceNotFoundException e) {
+			throw new ReservationException(ErrorMessages.EVENT_NOT_EXIST);
+		}
+		return content;
 	}
 
 	private static List<Event> getListOfEvents() {
