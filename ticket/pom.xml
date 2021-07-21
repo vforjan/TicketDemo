@@ -9,9 +9,7 @@
 	</parent>
 
 
-	<groupId>hu.otp.simple</groupId>
 	<artifactId>ticket</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>Ticket module</name>
 	<description>Demo project for OTP-Simple ticketing task Ticker module</description>
 	<properties>

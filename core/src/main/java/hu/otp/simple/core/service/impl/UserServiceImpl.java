@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.dtos.UserPaymentDto;
@@ -100,50 +101,84 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean isUserCardOwner(User user, String cardId) {
 
-		if (user == null && cardId == null) {
-			// TODO
-		}
-
-		if (cardId != null) {
-			UserBankCard card = userBankCardsRepository.findByCardId(cardId);
-
-			if (card == null) {
-				throw new UserException(ErrorMessages.CARD_NOT_FOUND);
-			}
-			if (card.getUserId().equals(user.getUserId())) {
-				return true;
-			} else {
-				throw new UserException(ErrorMessages.CARD_AND_USER_NOT_MATCH);
-			}
-
-		}
-
-		return false;
+		return checkIsUserCardOwner(user, cardId);
 	}
 
-	private User getValidatedUserFromToken(String token) {
-		UserValidationDto userValidationDto = validateUserByUserToken(token);
-		if (!userValidationDto.isSuccess()) {
-			log.info("Sikertelen validálás.");
-			throw new UserException(userValidationDto.getOptionalError());
-		}
-		User user = userRepository.findByUserId(userValidationDto.getUserId());
-
-		return user;
-
-	}
-
+	@Override
 	public UserPaymentDto preCheckPayment(String token, String cardId, int payment) {
 
-		User validatedUser = getValidatedUserFromToken(token);
+		UserPaymentDto dto = new UserPaymentDto();
+		dto.setToken(token);
+		try {
+			User validatedUser = getValidatedUserFromToken(token);
 
-		// TODO
-		return null;
+			if (validatedUser == null) {
+				log.warn("Nem található felhasználó.");
+				dto.setSuccess(false);
+				dto.setOptionalError(ErrorMessages.USER_NOT_FOUND);
+				return dto;
+			}
+
+			if (checkIsUserCardOwner(validatedUser, cardId)) {
+				log.warn("A felhasználó nem rendelkezik ilyen kártyával. UserId = {}, CardId = {}", validatedUser.getUserId(), cardId);
+				dto.setSuccess(false);
+				dto.setOptionalError(ErrorMessages.CARD_AND_USER_NOT_MATCH);
+				return dto;
+			}
+			if (!checkCardCoverage(payment, cardId)) {
+				log.info("Nincs elég fedezet a kártyán. CardId = {}", cardId);
+				dto.setSuccess(false);
+				dto.setOptionalError(ErrorMessages.NOT_ENOUGH_COVERAGE);
+				return dto;
+			}
+
+			dto.setSuccess(true);
+			return dto;
+
+		} catch (UserException e) {
+			log.info("Hiba a fedezet validálása közben. cardId = {}, hibaüzenet = {}", cardId, e.getErrorMessage().getSimpleMessage());
+			dto.setOptionalError(e.getErrorMessage());
+			dto.setSuccess(false);
+			return dto;
+		}
 
 	}
 
 	@Override
 	public boolean hasCardCoverage(int price, String cardId) {
+		checkCardCoverage(price, cardId);
+
+		return false;
+	}
+
+	private boolean isTokenValid(List<UserToken> tokens, String actualToken) {
+		for (UserToken userToken : tokens) {
+			if (userToken.getToken().equals(actualToken)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkIsUserCardOwner(User user, String cardId) throws UserException {
+
+		Assert.notNull(user, "User can't be null");
+		Assert.notNull(user, "CardId can't be null");
+
+		UserBankCard card = userBankCardsRepository.findByCardId(cardId);
+
+		if (card == null) {
+			throw new UserException(ErrorMessages.CARD_NOT_FOUND);
+		}
+		if (card.getUserId().equals(user.getUserId())) {
+			return true;
+		} else {
+			throw new UserException(ErrorMessages.CARD_AND_USER_NOT_MATCH);
+		}
+
+	}
+
+	private boolean checkCardCoverage(int price, String cardId) {
 
 		if (cardId != null) {
 			UserBankCard card = userBankCardsRepository.findByCardId(cardId);
@@ -160,13 +195,16 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-	private boolean isTokenValid(List<UserToken> tokens, String actualToken) {
-		for (UserToken userToken : tokens) {
-			if (userToken.getToken().equals(actualToken)) {
-				return true;
-			}
+	private User getValidatedUserFromToken(String token) {
+		UserValidationDto userValidationDto = validateUserByUserToken(token);
+		if (!userValidationDto.isSuccess()) {
+			log.info("Sikertelen validálás.");
+			throw new UserException(userValidationDto.getOptionalError());
 		}
-		return false;
+		User user = userRepository.findByUserId(userValidationDto.getUserId());
+
+		return user;
+
 	}
 
 }

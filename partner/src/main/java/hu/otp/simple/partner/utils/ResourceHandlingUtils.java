@@ -17,9 +17,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hu.otp.simple.common.domain.Event;
+import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.domain.EventReserve;
 import hu.otp.simple.common.domain.EventWrapper;
-import hu.otp.simple.common.domain.SeatInfo;
 import hu.otp.simple.common.exceptions.ResourceNotFoundException;
 
 public class ResourceHandlingUtils {
@@ -27,29 +27,16 @@ public class ResourceHandlingUtils {
 	@Value("classpath:data/getEvents.json")
 	public static Resource eventsResource;
 
-	public static List<Event> getContentOfEventsFromFileResource() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		EventWrapper wrapper = null;
-		// System.out.println(eventsResource.getFilename());
-
-		String jsonInput = getContentFromFileResource(new ClassPathResource("data/getEvents.json"));
-
-		try {
-			wrapper = objectMapper.readValue(jsonInput, EventWrapper.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return wrapper.getData();
+	public static List<Event> getContentOfEvents() {
+		return getListOfEvents();
 	}
 
-	public static String getContentOfEventByIdFromFileResource(long id) {
-		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		Resource resource = resourceLoader.getResource("classpath:/data/getEvent" + id + ".json");
-		return getContentFromFileResource(resource);
-
+	public static Event getEventById(long id) {
+		List<Event> events = getListOfEvents();
+		return events.stream().filter(e -> id == e.getEventId()).findFirst().orElse(null);
 	}
 
-	public static List<SeatInfo> readReservationInfo(long eventId) throws JsonMappingException, JsonProcessingException {
+	public static EventInfo getEventInfoById(long eventId) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		EventReserve reserve = null;
 		String jsonInput = getContentOfEventByIdFromFileResource(eventId);
@@ -57,9 +44,10 @@ public class ResourceHandlingUtils {
 		try {
 			reserve = objectMapper.readValue(jsonInput, EventReserve.class);
 		} catch (IOException e) {
-			e.printStackTrace();
+			return null;
+			// throw new ResourceNotFoundException("eventId =" + eventId);
 		}
-		return reserve.getData().getSeats();
+		return reserve.getData();
 
 	}
 
@@ -74,4 +62,24 @@ public class ResourceHandlingUtils {
 		return content;
 	}
 
+	private static String getContentOfEventByIdFromFileResource(long id) {
+		ResourceLoader resourceLoader = new DefaultResourceLoader();
+		Resource resource = resourceLoader.getResource("classpath:/data/getEvent" + id + ".json");
+		return getContentFromFileResource(resource);
+
+	}
+
+	private static List<Event> getListOfEvents() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		EventWrapper wrapper = null;
+
+		String jsonInput = getContentFromFileResource(new ClassPathResource("data/getEvents.json"));
+
+		try {
+			wrapper = objectMapper.readValue(jsonInput, EventWrapper.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return wrapper.getData();
+	}
 }

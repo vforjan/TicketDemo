@@ -6,12 +6,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import hu.otp.simple.common.dtos.UserPaymentDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
 
 /**
@@ -45,10 +45,9 @@ public class CoreClient {
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 
 		HttpEntity<UserValidationDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), UserValidationDto.class);
-		Map<String, String> params = new HashMap<>();
-		params.put("token", token);
 
 		return response.getBody();
 
 	}
+
 }

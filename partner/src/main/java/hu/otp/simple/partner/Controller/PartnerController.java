@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.otp.simple.common.domain.Event;
+import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.partner.service.ReservationService;
 import hu.otp.simple.partner.utils.ResourceHandlingUtils;
@@ -30,22 +31,28 @@ public class PartnerController {
 	@GetMapping("/getEvents")
 	public ResponseEntity<List<Event>> getEvents() {
 		log.info("Események lekérdezése.");
-		List<Event> content = ResourceHandlingUtils.getContentOfEventsFromFileResource();
+		List<Event> content = ResourceHandlingUtils.getContentOfEvents();
 		// TODO validation
 		return ResponseEntity.status(HttpStatus.OK).body(content);
 	}
 
 	@GetMapping("/getEvent")
-	public ResponseEntity<String> getEvent(@RequestParam("id") long id) {
-		log.info("Esemény részleteinek lekérdezése. Id= {}", id);
-		String content = ResourceHandlingUtils.getContentOfEventByIdFromFileResource(id);
-
+	public ResponseEntity<EventInfo> getEvent(@RequestParam("id") long id) {
+		log.info("Esemény lekérdezése. Id= {}", id);
+		EventInfo content = ResourceHandlingUtils.getEventInfoById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(content);
 
 	}
 
+	@GetMapping("/getEventDescription")
+	public ResponseEntity<Event> getEventDetails(@RequestParam("id") long id) {
+		log.info("Esemény leírásának lekérdezése.");
+		Event content = ResourceHandlingUtils.getEventById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(content);
+	}
+
 	@PostMapping("/reserve")
-	public ResponseEntity<ReserveDto> getEvent(@RequestParam("EventId") long eventId, @RequestParam("SeatId") long seatId) {
+	public ResponseEntity<ReserveDto> reserve(@RequestParam("EventId") long eventId, @RequestParam("SeatId") long seatId) {
 		log.info("Hely foglalási kisérlet. EventId = {}, SeatId = {}", eventId, seatId);
 
 		ReserveDto reserveDto = reservationService.reserveDto(eventId, seatId);
@@ -88,6 +95,12 @@ public class PartnerController {
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(reserveDto);
+
+	}
+
+	@GetMapping("/heartbeat")
+	public boolean heartbeat() {
+		return true;
 
 	}
 }

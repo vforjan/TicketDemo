@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import hu.otp.simple.common.dtos.UserPaymentDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
 
 /**
@@ -42,11 +43,35 @@ public class CoreClient {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("token", token);
 
 		HttpEntity<?> entity = new HttpEntity<>(headers);
-
 		HttpEntity<UserValidationDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), UserValidationDto.class);
-		Map<String, String> params = new HashMap<>();
-		params.put("token", token);
 
+		return response.getBody();
+
+	}
+
+	/**
+	 * Validate user payment
+	 * 
+	 * @param token the suer token
+	 * @param cardId the card id
+	 * @param payment the payment
+	 * @return the UserPaymentDto represents the results of the validation
+	 */
+	public UserPaymentDto validateUserPayment(String token, String cardId, int payment) {
+
+		String url = coreUrl + "/validate-payment";
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("token", token).queryParam("cardId", cardId)
+				.queryParam("payment", payment);
+
+		HttpEntity<?> entity = new HttpEntity<>(headers);
+
+		HttpEntity<UserPaymentDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), UserPaymentDto.class);
 		return response.getBody();
 
 	}

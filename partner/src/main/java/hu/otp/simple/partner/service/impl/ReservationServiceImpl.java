@@ -25,7 +25,8 @@ public class ReservationServiceImpl implements ReservationService {
 		List<SeatInfo> infos = null;
 
 		try {
-			infos = ResourceHandlingUtils.readReservationInfo(eventId);
+
+			infos = ResourceHandlingUtils.getEventInfoById(eventId).getSeats();
 		} catch (Exception e) {
 			log.info("Sikertelen hely foglalás EventId = {}, SeatId = {}", eventId, seatId);
 			throw new ReservationException(ErrorMessages.EVENT_NOT_EXIST);

@@ -11,8 +11,11 @@ public enum ErrorMessages {
 													"Ez a bankkártya nem ehhez a felhasználóhoz tartozik"), NOT_ENOUGH_COVERAGE(10101,
 															"A felhasználónak nincs elegendő pénze hogy megvásárolja a jegyet!"), EVENT_NOT_EXIST(
 																	90001, "Nem létezik ilyen esemény!"), SEAT_NOT_EXIST(90002,
-																			"Nem létezik ilyen szék!"), RESERVED_SEAT(90010,
-																					"Már lefoglalt székre nem lehet jegyet eladni!");
+																			"Nem létezik ilyen szék!"), EVENT_STARTED(90011,
+																					"Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!"), INVALID_EVENT(
+																							90010,
+																							"Érvénytelen rendezvény"), RESERVED_SEAT(90010,
+																									"Már lefoglalt székre nem lehet jegyet eladni!");
 
 	private Integer code;
 	private String message;

@@ -28,6 +28,6 @@ public interface EventService {
 	 */
 	List<Event> queryEventsFromPartner();
 
-	ReserveDto reserveAndPay(long eventId, long seatId, long cardId);
+	ReserveDto reserveAndPay(long eventId, long seatId, String cardId, String token);
 
 }
