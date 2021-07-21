@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
+import hu.otp.simple.common.dtos.ReserveDto;
 
 @Service
 public class TicketClient {
@@ -54,4 +55,21 @@ public class TicketClient {
 
 		return response.getBody();
 	}
+
+	public ReserveDto reserveAndPay(long eventId, long seatId, String cardId, String token) {
+
+		String url = ticketUrl + "/getEvent";
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("EventId", eventId).queryParam("SeatId", seatId)
+				.queryParam("CardId", cardId).queryParam("UserToken", token);
+		HttpEntity<ReserveDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), ReserveDto.class);
+
+		return response.getBody();
+	}
+
 }

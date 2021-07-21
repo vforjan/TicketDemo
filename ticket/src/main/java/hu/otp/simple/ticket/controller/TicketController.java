@@ -20,6 +20,12 @@ import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.ticket.service.EventService;
 import hu.otp.simple.ticket.service.impl.EventServiceImpl;
 
+/**
+ * Ticket module controller.
+ * 
+ * @author vforjan
+ *
+ */
 @RestController
 @RequestMapping("/ticket")
 public class TicketController {
@@ -34,6 +40,7 @@ public class TicketController {
 		List<Event> events = eventService.queryEventsFromPartner();
 		if (CollectionUtils.isEmpty(events)) {
 			log.info("The partner has no events.");
+			ResponseEntity.status(HttpStatus.NO_CONTENT).body(events);
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(events);
@@ -45,16 +52,17 @@ public class TicketController {
 		EventInfo event = eventService.queryEventInfoFromPartnerByEventId(id);
 		if (event == null) {
 			log.info("Not found event for id = {}", id);
+			ResponseEntity.status(HttpStatus.NO_CONTENT).body(event);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(event);
 	}
 
 	@GetMapping("/reserve")
 	public ResponseEntity<ReserveDto> reserveEvent(@RequestParam("EventId") long eventId, @RequestParam("SeatId") long seatId,
-			@RequestParam("CardId") long cardId) {
+			@RequestParam("CardId") String cardId, @RequestParam("UserToken") String token) {
 		log.info("Pay attempt with seat reservation. EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
 
-		ReserveDto reserve = eventService.payAttempt(eventId, seatId, cardId);
+		ReserveDto reserve = eventService.reserveAndPay(eventId, seatId, cardId, token);
 		if (reserve == null) {
 
 			log.info("Sikertelen hely foglalás EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);

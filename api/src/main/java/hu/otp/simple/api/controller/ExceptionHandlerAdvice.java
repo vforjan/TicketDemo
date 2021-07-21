@@ -35,7 +35,7 @@ public class ExceptionHandlerAdvice {
 	@ExceptionHandler(UserException.class)
 	public ResponseEntity<ErrorMessages> handleUserException(UserException e) {
 		log.info("Hiba a felhasználó validálása során.: {}", e.getErrorMessage().getSimpleMessage());
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getErrorMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getErrorMessage());
 	}
 
 	@ExceptionHandler(ReservationException.class)

@@ -42,8 +42,6 @@ public class CoreClient {
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("token", token);
 
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-
 		HttpEntity<UserValidationDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), UserValidationDto.class);
 
 		return response.getBody();

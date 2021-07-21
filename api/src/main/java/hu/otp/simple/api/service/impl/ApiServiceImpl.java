@@ -1,13 +1,12 @@
 package hu.otp.simple.api.service.impl;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.otp.simple.api.client.CoreClient;
+import hu.otp.simple.api.client.TicketClient;
 import hu.otp.simple.api.service.ApiService;
 import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.dtos.ReserveDto;
@@ -22,10 +21,13 @@ public class ApiServiceImpl implements ApiService {
 	@Autowired
 	private CoreClient coreClient;
 
+	@Autowired
+	private TicketClient ticketClient;
+
 	@Override
 	public UserValidationDto validateUser(String token) {
 
-		log.info("Validate user by token.");
+		log.info("User token ellenőrzése.");
 		UserValidationDto dto = coreClient.validateUserToken(token);
 
 		// TODO: handle null with another case
@@ -34,14 +36,17 @@ public class ApiServiceImpl implements ApiService {
 			throw new UserException(message);
 		}
 
-		log.info("User validated successfully!");
+		log.info("Felhasználó token érvényesítve!");
 		return dto;
 	}
 
 	@Override
-	public ReserveDto payAttempt(long eventId, long seatId, long cardId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ReserveDto payAttempt(long eventId, long seatId, long cardId, String token) {
+		log.info("Helyfoglalás és fizetés kezdeményezése. EventId ={}, CardId={}", eventId, cardId);
+
+		final String cardIdString = "C" + cardId;
+		return ticketClient.reserveAndPay(eventId, seatId, cardIdString, token);
+
 	}
 
 }

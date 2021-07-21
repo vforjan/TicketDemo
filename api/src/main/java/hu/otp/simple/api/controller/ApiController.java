@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,16 +33,28 @@ public class ApiController {
 	private EventService eventService;
 
 	@GetMapping("/getEvents")
-	public ResponseEntity<List<Event>> getEvents() {
+	public ResponseEntity<List<Event>> getEvents(@RequestHeader("User-Token") String token) {
 		log.info("Események lekérdezése.");
+		UserValidationDto dto = apiService.validateUser(token);
+		if (!dto.isSuccess()) {
+			log.warn("Sikertelen felhasználó authentikáció.");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+
 		List<Event> events = eventService.queryEvents();
-		// TODO validation
 		return ResponseEntity.status(HttpStatus.OK).body(events);
 	}
 
 	@GetMapping("/getEvent")
-	public ResponseEntity<EventInfo> getEvent(@RequestParam("id") long id) {
+	public ResponseEntity<EventInfo> getEvent(@RequestHeader("User-Token") String token, @RequestParam("id") long id) {
 		log.info("Esemény részleteinek lekérdezése. Id= {}", id);
+
+		UserValidationDto dto = apiService.validateUser(token);
+		if (!dto.isSuccess()) {
+			log.warn("Sikertelen felhasználó authentikáció.");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+
 		EventInfo event = eventService.queryEventInfoByEventId(id);
 		return ResponseEntity.status(HttpStatus.OK).body(event);
 
@@ -55,11 +68,17 @@ public class ApiController {
 	}
 
 	@PostMapping("/pay")
-	public ResponseEntity<ReserveDto> getEvent(@RequestParam("EventId") long eventId, @RequestParam("SeatId") long seatId,
-			@RequestParam("CardId") long cardId) {
+	public ResponseEntity<ReserveDto> getEvent(@RequestHeader("User-Token") String token, @RequestParam("EventId") long eventId,
+			@RequestParam("SeatId") long seatId, @RequestParam("CardId") long cardId) {
 		log.info("Fizetési kisérlet helyfoglalással. EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
 
-		ReserveDto reserve = apiService.payAttempt(eventId, seatId, cardId);
+		UserValidationDto dto = apiService.validateUser(token);
+		if (!dto.isSuccess()) {
+			log.warn("Sikertelen felhasználó authentikáció.");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+
+		ReserveDto reserve = apiService.payAttempt(eventId, seatId, cardId, token);
 		if (reserve == null) {
 
 			log.info("Sikertelen hely foglalás EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
