@@ -58,7 +58,7 @@ public class CoreController {
 	}
 
 	@GetMapping("/payvalidation")
-	public boolean checkAmount() {
+	public boolean checkAmount(@RequestParam("price") int price, @RequestParam("token") String token) {
 
 		return userService.hasCardCoverage(10000, "C0001");
 

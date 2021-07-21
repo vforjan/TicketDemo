@@ -5,6 +5,7 @@ import hu.otp.simple.common.ErrorMessages;
 public class UserValidationDto {
 
 	private String token;
+	private int userId;
 	private boolean success;
 	private ErrorMessages optionalError;
 
@@ -30,6 +31,14 @@ public class UserValidationDto {
 
 	public void setOptionalError(ErrorMessages optionalError) {
 		this.optionalError = optionalError;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

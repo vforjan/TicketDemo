@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.otp.simple.common.ErrorMessages;
+import hu.otp.simple.common.dtos.UserPaymentDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
 import hu.otp.simple.common.exceptions.UserException;
 import hu.otp.simple.core.domain.User;
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
 			return userDto;
 		}
 
+		userDto.setUserId(validationDto.getUserId());
 		User user = userRepository.findByUserId(validationDto.getUserId());
 		if (user == null) {
 			log.warn("Nem található felhasználó.");
@@ -117,6 +119,27 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return false;
+	}
+
+	private User getValidatedUserFromToken(String token) {
+		UserValidationDto userValidationDto = validateUserByUserToken(token);
+		if (!userValidationDto.isSuccess()) {
+			log.info("Sikertelen validálás.");
+			throw new UserException(userValidationDto.getOptionalError());
+		}
+		User user = userRepository.findByUserId(userValidationDto.getUserId());
+
+		return user;
+
+	}
+
+	public UserPaymentDto preCheckPayment(String token, String cardId, int payment) {
+
+		User validatedUser = getValidatedUserFromToken(token);
+
+		// TODO
+		return null;
+
 	}
 
 	@Override
