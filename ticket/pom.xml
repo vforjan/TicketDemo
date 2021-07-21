@@ -8,7 +8,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-
 	<artifactId>ticket</artifactId>
 	<name>Ticket module</name>
 	<description>Demo project for OTP-Simple ticketing task Ticker module</description>

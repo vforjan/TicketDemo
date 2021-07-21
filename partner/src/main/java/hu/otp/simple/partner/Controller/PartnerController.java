@@ -66,6 +66,13 @@ public class PartnerController {
 
 	}
 
+	@GetMapping("/heartbeat")
+	public ResponseEntity<Integer> getHeartbeat(@RequestParam("heartbeat") Integer hb, @RequestParam("client") String client) {
+		log.info("Heartbeat request accepted from client: {}", client);
+		return ResponseEntity.status(HttpStatus.OK).body(hb + 1);
+
+	}
+
 	// FIXME: just for testing
 
 	@GetMapping("/reserve2")

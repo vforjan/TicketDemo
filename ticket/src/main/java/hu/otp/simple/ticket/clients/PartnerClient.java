@@ -3,6 +3,7 @@ package hu.otp.simple.ticket.clients;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -20,6 +21,7 @@ import hu.otp.simple.common.dtos.ReserveDto;
 public class PartnerClient {
 	@Value("${restclient.url.partner}")
 	private String partnerUrl;
+	private static Random rnd = new Random();
 
 	public List<Event> queryEvents() {
 
@@ -84,6 +86,23 @@ public class PartnerClient {
 		HttpEntity<ReserveDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), ReserveDto.class);
 
 		return response.getBody();
+	}
+
+	public boolean isAlive() {
+
+		int hb = rnd.nextInt();
+		String url = partnerUrl + "/heartbeat";
+		RestTemplate restTemplate = new RestTemplate();
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("heartbeat", hb).queryParam("client",
+				"OTP-Simple Ticket");
+		HttpEntity<Integer> response = restTemplate.getForEntity(builder.build().encode().toUri(), Integer.class);
+
+		Integer result = response.getBody();
+		if (result != null && result == hb + 1) {
+			return true;
+		}
+		return false;
 	}
 
 }

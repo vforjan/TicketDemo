@@ -9,13 +9,17 @@ public enum ErrorMessages {
 									"Érvénytelen felhasználó!"), NOT_FOUND_TOKEN(10050,
 											"A beérkezett kérésben a felhasználó token nem szerepel"), CARD_AND_USER_NOT_MATCH(10100,
 													"Ez a bankkártya nem ehhez a felhasználóhoz tartozik"), NOT_ENOUGH_COVERAGE(10101,
-															"A felhasználónak nincs elegendő pénze hogy megvásárolja a jegyet!"), EVENT_NOT_EXIST(
-																	90001, "Nem létezik ilyen esemény!"), SEAT_NOT_EXIST(90002,
-																			"Nem létezik ilyen szék!"), EVENT_STARTED(90011,
-																					"Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!"), INVALID_EVENT(
-																							90010,
-																							"Érvénytelen rendezvény"), RESERVED_SEAT(90010,
-																									"Már lefoglalt székre nem lehet jegyet eladni!");
+															"A felhasználónak nincs elegendő pénze hogy megvásárolja a jegyet!"), CORE_MODULE_NOT_ALIVE(
+																	10404, "A Core module nem elérhető!"), EVENT_NOT_EXIST(90001,
+																			"Nem létezik ilyen esemény!"), SEAT_NOT_EXIST(90002,
+																					"Nem létezik ilyen szék!"), EVENT_STARTED(90011,
+																							"Olyan eseményre ami már elkezdődött nem lehet jegyet eladni!"), INVALID_EVENT(
+																									90010,
+																									"Érvénytelen rendezvény"), RESERVED_SEAT(
+																											90010,
+																											"Már lefoglalt székre nem lehet jegyet eladni!"), PARTNER_MODULE_NOT_ALIVE(
+																													20404,
+																													"A Partner module nem elérhető!");
 
 	private Integer code;
 	private String message;

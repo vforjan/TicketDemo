@@ -46,7 +46,17 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public ReserveDto reserveAndPay(long eventId, long seatId, String cardId, String token) {
 
-		ErrorMessages errorMessage = null;
+		//// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		// Check clients
+		if (!partnerClient.isAlive()) {
+			log.error("A partner module nem elérhető.");
+			throw new ReservationException(ErrorMessages.PARTNER_MODULE_NOT_ALIVE);
+
+		}
+		if (!coreClient.isAlive()) {
+			log.error("A Core module nem elérhető.");
+			throw new ReservationException(ErrorMessages.CORE_MODULE_NOT_ALIVE);
+		}
 
 		log.info("Query event info by id = {}", eventId);
 
@@ -97,10 +107,9 @@ public class EventServiceImpl implements EventService {
 		} else {
 			log.info("Sikeres fizetés validálás. Fizetés véglegesítése.");
 			ReserveDto reservation = partnerClient.reserve(eventId, seatId);
-
+			return reservation;
 		}
 
-		return null;
 	}
 
 }

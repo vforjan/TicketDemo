@@ -2,6 +2,7 @@ package hu.otp.simple.ticket.clients;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,6 +25,7 @@ import hu.otp.simple.common.dtos.UserValidationDto;
 public class CoreClient {
 	@Value("${restclient.url.core}")
 	private String coreUrl;
+	private static Random rnd = new Random();
 
 	/**
 	 * Core call to validate user by its provided token.
@@ -75,4 +77,21 @@ public class CoreClient {
 		return response.getBody();
 
 	}
+
+	public boolean isAlive() {
+		int hb = rnd.nextInt();
+		String url = coreUrl + "/heartbeat";
+		RestTemplate restTemplate = new RestTemplate();
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("heartbeat", hb).queryParam("client",
+				"OTP-Simple Ticket");
+		HttpEntity<Integer> response = restTemplate.getForEntity(builder.build().encode().toUri(), Integer.class);
+
+		Integer result = response.getBody();
+		if (result != null && result == hb + 2) {
+			return true;
+		}
+		return false;
+	}
+
 }

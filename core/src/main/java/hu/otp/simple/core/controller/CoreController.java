@@ -78,8 +78,9 @@ public class CoreController {
 	}
 
 	@GetMapping("/heartbeat")
-	public String heartbeat() {
-		return "Hello from the core!";
+	public ResponseEntity<Integer> getHeartbeat(@RequestParam("heartbeat") Integer hb, @RequestParam("client") String client) {
+		log.info("Heartbeat request accepted from client: {}", client);
+		return ResponseEntity.status(HttpStatus.OK).body(hb + 2);
 
 	}
 }
