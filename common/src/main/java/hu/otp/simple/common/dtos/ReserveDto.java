@@ -27,4 +27,8 @@ public class ReserveDto {
 		this.success = success;
 	}
 
+	public ReserveDto() {
+		super();
+	}
+
 }

@@ -10,6 +10,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -51,7 +53,7 @@ public class PartnerClient {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-
+		// TODO: errorhandling ide!
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("id", id);
 		HttpEntity<EventInfo> response = restTemplate.getForEntity(builder.build().encode().toUri(), EventInfo.class);
 
@@ -79,11 +81,16 @@ public class PartnerClient {
 
 		RestTemplate restTemplate = new RestTemplate();
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("EventId", eventId).queryParam("SeatId", seatId);
-		HttpEntity<ReserveDto> response = restTemplate.getForEntity(builder.build().encode().toUri(), ReserveDto.class);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("EventId", eventId);
+		map.add("SeatId", seatId);
+
+		HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(map, headers);
+
+		HttpEntity<ReserveDto> response = restTemplate.postForEntity(builder.build().encode().toUri(), request, ReserveDto.class);
 
 		return response.getBody();
 	}

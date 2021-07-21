@@ -32,7 +32,7 @@ public class CoreController {
 	}
 
 	@GetMapping("/payment-validation")
-	public UserPaymentDto checkPayment(@RequestParam("payment") int payment, @RequestParam("token") String token, String cardId) {
+	public UserPaymentDto checkPayment(@RequestParam("token") String token, String cardId, @RequestParam("payment") int payment) {
 		log.info("Fizetés ellenörzése.");
 		return userService.preCheckPayment(token, cardId, payment);
 

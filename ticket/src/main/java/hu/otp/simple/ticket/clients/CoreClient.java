@@ -60,7 +60,7 @@ public class CoreClient {
 	 */
 	public UserPaymentDto validateUserPayment(String token, String cardId, int payment) {
 
-		String url = coreUrl + "/validate-payment";
+		String url = coreUrl + "/payment-validation";
 
 		RestTemplate restTemplate = new RestTemplate();
 

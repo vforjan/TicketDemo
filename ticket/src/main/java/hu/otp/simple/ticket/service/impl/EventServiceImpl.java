@@ -71,7 +71,7 @@ public class EventServiceImpl implements EventService {
 		//// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		// Check date
 		Event eventDescription = partnerClient.queryEventDescription(eventId);
-		String startDate = eventDescription.getEndTimeStamp();
+		String startDate = eventDescription.getStartTimeStamp();
 		if (!StringUtils.hasLength(startDate)) {
 			log.info("Érvénytelen esemény kezdeti időpont.");
 			throw new ReservationException(ErrorMessages.INVALID_EVENT);
