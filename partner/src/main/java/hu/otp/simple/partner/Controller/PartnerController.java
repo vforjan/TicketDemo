@@ -45,7 +45,7 @@ public class PartnerController {
 	}
 
 	@GetMapping("/getEventDescription")
-	public ResponseEntity<Event> getEventDetails(@RequestParam("id") long id) {
+	public ResponseEntity<Event> getEventDescription(@RequestParam("id") long id) {
 		log.info("Esemény leírásának lekérdezése.");
 		Event content = ResourceHandlingUtils.getEventById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(content);
@@ -70,44 +70,6 @@ public class PartnerController {
 	public ResponseEntity<Integer> getHeartbeat(@RequestParam("heartbeat") Integer hb, @RequestParam("client") String client) {
 		log.info("Heartbeat request accepted from client: {}", client);
 		return ResponseEntity.status(HttpStatus.OK).body(hb + 1);
-
-	}
-
-	// FIXME: just for testing
-
-	@GetMapping("/reserve2")
-	public ResponseEntity<ReserveDto> getEvent2() {
-		ReserveDto reserveDto = reservationService.reserveDto(new Long(10), new Long(3));
-
-		return ResponseEntity.status(HttpStatus.OK).body(reserveDto);
-
-	}
-
-	@GetMapping("/reserve3")
-	public ResponseEntity<ReserveDto> getEvent3() {
-		ReserveDto reserveDto = reservationService.reserveDto(new Long(3), new Long(12));
-		if (reserveDto == null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(reserveDto);
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body(reserveDto);
-
-	}
-
-	@GetMapping("/reserve4")
-	public ResponseEntity<ReserveDto> getEvent4() {
-		ReserveDto reserveDto = reservationService.reserveDto(new Long(3), new Long(9));
-		if (reserveDto == null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(reserveDto);
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body(reserveDto);
-
-	}
-
-	@GetMapping("/heartbeat")
-	public boolean heartbeat() {
-		return true;
 
 	}
 }
