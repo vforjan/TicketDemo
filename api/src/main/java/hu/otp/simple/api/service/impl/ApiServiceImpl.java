@@ -44,8 +44,21 @@ public class ApiServiceImpl implements ApiService {
 	public ReserveDto payAttempt(long eventId, long seatId, long cardId, String token) {
 		log.info("Helyfoglalás és fizetés kezdeményezése. EventId ={}, CardId={}", eventId, cardId);
 
-		final String cardIdString = "C" + cardId;
+		final String cardIdString = resolveCardId(cardId);
 		return ticketClient.reserveAndPay(eventId, seatId, cardIdString, token);
+
+	}
+
+	private String resolveCardId(long cardId) {
+		String idString = Long.toString(cardId);
+		StringBuilder builder = new StringBuilder();
+		builder.append("C");
+		while (builder.length() + idString.length() < 5) {
+			builder.append("0");
+
+		}
+		builder.append(cardId);
+		return builder.toString();
 
 	}
 

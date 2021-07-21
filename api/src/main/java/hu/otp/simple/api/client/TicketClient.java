@@ -58,7 +58,7 @@ public class TicketClient {
 
 	public ReserveDto reserveAndPay(long eventId, long seatId, String cardId, String token) {
 
-		String url = ticketUrl + "/getEvent";
+		String url = ticketUrl + "/reserve";
 
 		RestTemplate restTemplate = new RestTemplate();
 

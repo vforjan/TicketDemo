@@ -60,13 +60,6 @@ public class ApiController {
 
 	}
 
-	@GetMapping("/validateToken")
-	public ResponseEntity<UserValidationDto> validate() {
-		String token = "dGVzenQuYWxhZGFyQG90cG1vYmlsLmNvbSYxMDAwJjNBRTVFOTY1OEZCRDdENDA0OEJENDA4MjBCN0QyMjdE";
-		UserValidationDto dto = apiService.validateUser(token);
-		return ResponseEntity.status(HttpStatus.OK).body(dto);
-	}
-
 	@PostMapping("/pay")
 	public ResponseEntity<ReserveDto> getEvent(@RequestHeader("User-Token") String token, @RequestParam("EventId") long eventId,
 			@RequestParam("SeatId") long seatId, @RequestParam("CardId") long cardId) {
