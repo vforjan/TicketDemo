@@ -17,20 +17,6 @@
 	<packaging>pom</packaging>
 	<description>Demo project for OTP-Simple ticketing system</description>
 
-
-
-<!-- 	<build> -->
-<!-- 		<pluginManagement> -->
-<!-- 			<plugins> -->
-<!-- 				<plugin> -->
-<!-- 					<groupId>org.springframework.boot</groupId> -->
-<!-- 					<artifactId>spring-boot-maven-plugin</artifactId> -->
-<!-- 				</plugin> -->
-<!-- 			</plugins> -->
-<!-- 		</pluginManagement> -->
-<!-- 	</build> -->
-
-
 	<modules>
 		<module>api</module>
 		<module>ticket</module>

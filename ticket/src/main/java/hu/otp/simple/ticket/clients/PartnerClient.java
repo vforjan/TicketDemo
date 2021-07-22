@@ -27,7 +27,6 @@ public class PartnerClient {
 	@Value("${restclient.url.partner}")
 	private String partnerUrl;
 	private static Random rnd = new Random();
-	SecurityUtils utils = new SecurityUtils();
 
 	@Autowired
 	SecureRestTemplateCustomizer costumizer;

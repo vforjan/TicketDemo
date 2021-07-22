@@ -1,5 +1,12 @@
 package hu.otp.simple.common.domain;
 
+/**
+ * 
+ * Seat information POJO
+ * 
+ * @author vforjan
+ *
+ */
 public class SeatInfo {
 
 	private String id;

@@ -12,6 +12,12 @@ import hu.otp.simple.api.service.EventService;
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 
+/**
+ * Event service implementation.
+ * 
+ * @author vforjan
+ *
+ */
 @Service
 public class EventServiceImpl implements EventService {
 	private static final Logger log = LoggerFactory.getLogger(EventServiceImpl.class);
@@ -21,14 +27,14 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public EventInfo queryEventInfoByEventId(long eventId) {
-		log.info("Query event info by id = {}", eventId);
+		log.info("Event info lekérdezése by id = {}", eventId);
 		return ticketClient.queryEvent(eventId);
 
 	}
 
 	@Override
 	public List<Event> queryEvents() {
-		log.info("Query all events.");
+		log.info("Minden elérhető esemény lekérdezése.");
 		return ticketClient.queryEvents();
 	}
 

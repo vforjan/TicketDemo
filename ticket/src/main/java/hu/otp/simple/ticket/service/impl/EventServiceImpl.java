@@ -32,14 +32,14 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public EventInfo queryEventInfoFromPartnerByEventId(long eventId) {
-		log.info("Query event info by id = {}", eventId);
+		log.info("Esemény részleteinek lekérdezése id alapján. Id = {}", eventId);
 		return partnerClient.queryEvent(eventId);
 
 	}
 
 	@Override
 	public List<Event> queryEventsFromPartner() {
-		log.info("Query all events.");
+		log.info("Minden esemény lekérdezése.");
 		return partnerClient.queryEvents();
 	}
 

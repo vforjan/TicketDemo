@@ -39,7 +39,7 @@ public class SecureRestTemplateCustomizer implements RestTemplateCustomizer {
 			sslContext = SSLContextBuilder.create()
 					.loadTrustMaterial(new URL(properties.getTrustStore()), properties.getTrustStorePassword()).build();
 		} catch (Exception e) {
-			log.error("Failed to setup client SSL context.", e);
+			log.error("Nem sikerült beállítani az SSL titkosítást.", e);
 			throw new IllegalStateException("Failed to setup client SSL context", e);
 		}
 
@@ -48,7 +48,7 @@ public class SecureRestTemplateCustomizer implements RestTemplateCustomizer {
 
 		final ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
 
-		log.info("Registered SSL truststore {} for client requests", properties.getTrustStore());
+		log.info("SSL truststore sikeresen regisztrálva {}", properties.getTrustStore());
 		restTemplate.setRequestFactory(requestFactory);
 	}
 }

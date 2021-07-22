@@ -80,7 +80,7 @@ public class ResourceHandlingUtils {
 	private static List<Event> getListOfEvents() {
 		ObjectMapper objectMapper = new ObjectMapper();
 		EventWrapper wrapper = null;
-		// TODO: use proeperties
+		// TODO: use properties
 		String resourceString = "data/getEvents.json";
 
 		String jsonInput = getContentFromFileResource(new ClassPathResource(resourceString));
@@ -93,7 +93,6 @@ public class ResourceHandlingUtils {
 		}
 
 		if (wrapper == null) {
-			// TODO: use exception
 			log.error("A kért erőforrás nem található.{} ", resourceString);
 			return Collections.emptyList();
 		}

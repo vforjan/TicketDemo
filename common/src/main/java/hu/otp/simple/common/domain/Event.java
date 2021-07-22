@@ -1,5 +1,11 @@
 package hu.otp.simple.common.domain;
 
+/**
+ * Event POJO
+ * 
+ * @author vforjan
+ *
+ */
 public class Event {
 
 	private int eventId;

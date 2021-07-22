@@ -68,7 +68,7 @@ public class PartnerController {
 
 	@GetMapping("/heartbeat")
 	public ResponseEntity<Integer> getHeartbeat(@RequestParam("heartbeat") Integer hb, @RequestParam("client") String client) {
-		log.info("Heartbeat request accepted from client: {}", client);
+		log.info("Életjel kérés fogadva a klinstől : {}", client);
 		return ResponseEntity.status(HttpStatus.OK).body(hb + 1);
 
 	}

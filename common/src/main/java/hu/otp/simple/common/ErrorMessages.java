@@ -1,5 +1,11 @@
 package hu.otp.simple.common;
 
+/**
+ * Enumeration for error messages.
+ * 
+ * @author vforjan
+ *
+ */
 public enum ErrorMessages {
 
 	CARD_NOT_FOUND(10001, "Nincs ilyen kártya a rendszerben!"), USER_ID_NOT_FOUND(10002, "Helytelen userId!"), USER_NOT_FOUND(10003,

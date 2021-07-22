@@ -39,7 +39,7 @@ public class TicketController {
 		log.info("Események lekérdezése.");
 		List<Event> events = eventService.queryEventsFromPartner();
 		if (CollectionUtils.isEmpty(events)) {
-			log.info("The partner has no events.");
+			log.info("A partnernek nincsenek elérhető eseményei.");
 			ResponseEntity.status(HttpStatus.NO_CONTENT).body(events);
 		}
 
@@ -51,7 +51,7 @@ public class TicketController {
 		log.info("Esemény részleteinek lekérdezése. Id= {}", id);
 		EventInfo event = eventService.queryEventInfoFromPartnerByEventId(id);
 		if (event == null) {
-			log.info("Not found event for id = {}", id);
+			log.info("Nem található event az azonosítóval = {}", id);
 			ResponseEntity.status(HttpStatus.NO_CONTENT).body(event);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(event);
@@ -60,7 +60,7 @@ public class TicketController {
 	@GetMapping("/reserve")
 	public ResponseEntity<ReserveDto> reserveEvent(@RequestParam("EventId") long eventId, @RequestParam("SeatId") long seatId,
 			@RequestParam("CardId") String cardId, @RequestParam("UserToken") String token) {
-		log.info("Pay attempt with seat reservation. EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
+		log.info("Fizetési kisrélet hely foglalással. EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
 
 		ReserveDto reserve = eventService.reserveAndPay(eventId, seatId, cardId, token);
 		if (reserve == null) {

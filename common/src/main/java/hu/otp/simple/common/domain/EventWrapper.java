@@ -2,6 +2,12 @@ package hu.otp.simple.common.domain;
 
 import java.util.List;
 
+/**
+ * Event wrapper POJO
+ * 
+ * @author vforjan
+ *
+ */
 public class EventWrapper {
 
 	private List<Event> data;

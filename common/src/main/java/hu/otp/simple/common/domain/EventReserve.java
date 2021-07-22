@@ -1,5 +1,11 @@
 package hu.otp.simple.common.domain;
 
+/**
+ * Event reservation POJO
+ * 
+ * @author vforjan
+ *
+ */
 public class EventReserve {
 
 	EventInfo data;
