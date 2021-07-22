@@ -20,7 +20,6 @@ import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.ticket.security.SecureRestTemplateCustomizer;
-import hu.otp.simple.ticket.security.SecurityUtils;
 
 @Service
 public class PartnerClient {

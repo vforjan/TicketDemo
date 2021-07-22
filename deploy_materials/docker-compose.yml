@@ -37,7 +37,7 @@ services:
       - compose-ticket
     networks:
         testing_net:
-            ipv4_address: 172.28.1.1    
+            ipv4_address: 172.28.1.1
             
 networks:
     testing_net:
