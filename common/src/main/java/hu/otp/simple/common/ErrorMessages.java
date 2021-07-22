@@ -19,7 +19,9 @@ public enum ErrorMessages {
 																											90010,
 																											"Már lefoglalt székre nem lehet jegyet eladni!"), PARTNER_MODULE_NOT_ALIVE(
 																													20404,
-																													"A Partner module nem elérhető!");
+																													"A Partner module nem elérhető!"), SERVICE_UNREACHABLE(
+																															80404,
+																															"A szolgáltatás nem elérhető.");
 
 	private Integer code;
 	private String message;

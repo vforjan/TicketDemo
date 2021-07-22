@@ -3,8 +3,11 @@ package hu.otp.simple.partner.utils;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -12,8 +15,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.FileCopyUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hu.otp.simple.common.ErrorMessages;
@@ -25,6 +26,7 @@ import hu.otp.simple.common.exceptions.ReservationException;
 import hu.otp.simple.common.exceptions.ResourceNotFoundException;
 
 public class ResourceHandlingUtils {
+	private static Logger log = LoggerFactory.getLogger(ResourceHandlingUtils.class);
 
 	@Value("classpath:data/getEvents.json")
 	public static Resource eventsResource;
@@ -78,14 +80,24 @@ public class ResourceHandlingUtils {
 	private static List<Event> getListOfEvents() {
 		ObjectMapper objectMapper = new ObjectMapper();
 		EventWrapper wrapper = null;
+		// TODO: use proeperties
+		String resourceString = "data/getEvents.json";
 
-		String jsonInput = getContentFromFileResource(new ClassPathResource("data/getEvents.json"));
+		String jsonInput = getContentFromFileResource(new ClassPathResource(resourceString));
 
 		try {
 			wrapper = objectMapper.readValue(jsonInput, EventWrapper.class);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("A kért erőforrás nem található.{} ", resourceString);
+			throw new ResourceNotFoundException(resourceString);
 		}
+
+		if (wrapper == null) {
+			// TODO: use exception
+			log.error("A kért erőforrás nem található.{} ", resourceString);
+			return Collections.emptyList();
+		}
+
 		return wrapper.getData();
 	}
 }

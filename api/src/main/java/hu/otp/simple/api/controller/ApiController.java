@@ -61,7 +61,7 @@ public class ApiController {
 	}
 
 	@PostMapping("/pay")
-	public ResponseEntity<ReserveDto> getEvent(@RequestHeader("User-Token") String token, @RequestParam("EventId") long eventId,
+	public ResponseEntity<ReserveDto> payAttempt(@RequestHeader("User-Token") String token, @RequestParam("EventId") long eventId,
 			@RequestParam("SeatId") long seatId, @RequestParam("CardId") long cardId) {
 		log.info("Fizetési kisérlet helyfoglalással. EventId = {}, SeatId = {}, CardId = {}", eventId, seatId, cardId);
 

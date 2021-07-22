@@ -11,8 +11,15 @@ import hu.otp.simple.api.service.ApiService;
 import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.dtos.ReserveDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
+import hu.otp.simple.common.exceptions.ServiceException;
 import hu.otp.simple.common.exceptions.UserException;
 
+/**
+ * Default implementation of api service.
+ * 
+ * @author vforjan
+ *
+ */
 @Service
 public class ApiServiceImpl implements ApiService {
 
@@ -30,9 +37,14 @@ public class ApiServiceImpl implements ApiService {
 		log.info("User token ellenőrzése.");
 		UserValidationDto dto = coreClient.validateUserToken(token);
 
-		// TODO: handle null with another case
-		if (dto == null || !dto.isSuccess()) {
-			ErrorMessages message = dto.getOptionalError() == null ? ErrorMessages.USER_INVALIDATED : dto.getOptionalError();
+		if (dto == null) {
+			log.info("A szolgáltatás nem elérhető.");
+			ErrorMessages message = ErrorMessages.SERVICE_UNREACHABLE;
+			throw new ServiceException(message);
+		}
+		if (!dto.isSuccess()) {
+
+			ErrorMessages message = dto.getOptionalError();
 			throw new UserException(message);
 		}
 
@@ -49,6 +61,12 @@ public class ApiServiceImpl implements ApiService {
 
 	}
 
+	/**
+	 * Card id resolver.
+	 * 
+	 * @param cardId the card id in number format
+	 * @return the inner <c ode>String</code> representation fo card Id.
+	 */
 	private String resolveCardId(long cardId) {
 		String idString = Long.toString(cardId);
 		StringBuilder builder = new StringBuilder();

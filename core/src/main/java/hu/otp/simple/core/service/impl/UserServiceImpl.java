@@ -127,7 +127,9 @@ public class UserServiceImpl implements UserService {
 				return dto;
 			}
 
-			if (!checkIsUserCardOwner(validatedUser, cardId)) {
+			if (checkIsUserCardOwner(validatedUser, cardId)) {
+				log.warn("A felhasználó bankártyája hitelesítve");
+			} else {
 				log.warn("A felhasználó nem rendelkezik ilyen kártyával. UserId = {}, CardId = {}", validatedUser.getUserId(), cardId);
 				dto.setSuccess(false);
 				dto.setOptionalError(ErrorMessages.CARD_AND_USER_NOT_MATCH);
@@ -199,7 +201,7 @@ public class UserServiceImpl implements UserService {
 			return true;
 		} else {
 			log.warn("A kártya nem ehhez a felhasználóhoz tartozik. UserId = {}, cardId = {} ", user.getUserId(), card.getCardId());
-			throw new UserException(ErrorMessages.CARD_AND_USER_NOT_MATCH);
+			return false;
 		}
 
 	}

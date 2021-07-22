@@ -12,6 +12,7 @@ import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.dtos.ReservationErrorDto;
 import hu.otp.simple.common.exceptions.ReservationException;
 import hu.otp.simple.common.exceptions.ResourceNotFoundException;
+import hu.otp.simple.common.exceptions.ServiceException;
 import hu.otp.simple.common.exceptions.UserException;
 
 @ControllerAdvice
@@ -36,6 +37,12 @@ public class ExceptionHandlerAdvice {
 	public ResponseEntity<ErrorMessages> handleUserException(UserException e) {
 		log.info("Hiba a felhasználó validálása során.: {}", e.getErrorMessage().getSimpleMessage());
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getErrorMessage());
+	}
+
+	@ExceptionHandler(ServiceException.class)
+	public ResponseEntity<ErrorMessages> handleServiceException(ServiceException e) {
+		log.info("Hiba a felhasználó validálása során.: {}", e.getErrorMessage().getSimpleMessage());
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(e.getErrorMessage());
 	}
 
 	@ExceptionHandler(ReservationException.class)

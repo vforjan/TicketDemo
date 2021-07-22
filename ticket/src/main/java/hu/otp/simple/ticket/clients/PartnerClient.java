@@ -39,14 +39,6 @@ public class PartnerClient {
 		RestTemplate restTemplate = new RestTemplate();
 		costumizer.customize(restTemplate);
 
-		// RestTemplate restTemplate = null;
-		// try {
-		// restTemplate = utils.restTemplate();
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 
@@ -65,13 +57,9 @@ public class PartnerClient {
 
 		String url = partnerUrl + "/getEvent";
 
-		RestTemplate restTemplate = null;
-		try {
-			restTemplate = utils.restTemplate();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		RestTemplate restTemplate = new RestTemplate();
+		costumizer.customize(restTemplate);
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 		// TODO: errorhandling ide!
@@ -85,13 +73,8 @@ public class PartnerClient {
 
 		String url = partnerUrl + "/getEventDescription";
 
-		RestTemplate restTemplate = null;
-		try {
-			restTemplate = utils.restTemplate();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		RestTemplate restTemplate = new RestTemplate();
+		costumizer.customize(restTemplate);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -106,13 +89,9 @@ public class PartnerClient {
 
 		String url = partnerUrl + "/reserve";
 
-		RestTemplate restTemplate = null;
-		try {
-			restTemplate = utils.restTemplate();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		RestTemplate restTemplate = new RestTemplate();
+		costumizer.customize(restTemplate);
+
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("EventId", eventId).queryParam("SeatId", seatId);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -132,13 +111,9 @@ public class PartnerClient {
 		int hb = rnd.nextInt();
 		String url = partnerUrl + "/heartbeat";
 
-		RestTemplate restTemplate = null;
-		try {
-			restTemplate = utils.restTemplate();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		RestTemplate restTemplate = new RestTemplate();
+		costumizer.customize(restTemplate);
+
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("heartbeat", hb).queryParam("client",
 				"OTP-Simple Ticket");
 		HttpEntity<Integer> response = restTemplate.getForEntity(builder.build().encode().toUri(), Integer.class);
