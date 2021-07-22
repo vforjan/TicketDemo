@@ -59,7 +59,7 @@ public class ResourceHandlingUtils {
 		try (Reader reader = new InputStreamReader(resource.getInputStream(), "UTF-8")) {
 			content = FileCopyUtils.copyToString(reader);
 		} catch (IOException e) {
-			throw new ResourceNotFoundException(resource.getFilename());
+			throw new ResourceNotFoundException(resource.getFilename(), ErrorMessages.RESOURCE_NOT_FOUND);
 		}
 
 		return content;
@@ -89,7 +89,7 @@ public class ResourceHandlingUtils {
 			wrapper = objectMapper.readValue(jsonInput, EventWrapper.class);
 		} catch (IOException e) {
 			log.error("A kért erőforrás nem található.{} ", resourceString);
-			throw new ResourceNotFoundException(resourceString);
+			throw new ResourceNotFoundException(resourceString, ErrorMessages.RESOURCE_NOT_FOUND);
 		}
 
 		if (wrapper == null) {

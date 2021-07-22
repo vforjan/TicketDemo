@@ -8,10 +8,6 @@ public class EventException extends AbstractErrorMessageException {
 	/** Serial */
 	private static final long serialVersionUID = 8282126799055782374L;
 
-	public EventException() {
-		super();
-	}
-
 	public EventException(ErrorMessages errorMessage) {
 		super(errorMessage);
 	}

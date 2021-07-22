@@ -3,19 +3,19 @@ package hu.otp.simple.common.dtos;
 public class ReservationErrorDto {
 
 	private boolean success = false;
-	private int ErrorCode;
+	private int errorCode;
 
 	public int getErrorCode() {
-		return ErrorCode;
+		return errorCode;
 	}
 
 	public void setErrorCode(int errorCode) {
-		ErrorCode = errorCode;
+		this.errorCode = errorCode;
 	}
 
 	public ReservationErrorDto(int errorCode) {
 		super();
-		ErrorCode = errorCode;
+		this.errorCode = errorCode;
 	}
 
 	public boolean isSuccess() {

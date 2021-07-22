@@ -1,8 +1,5 @@
 package hu.otp.simple.api.client;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import hu.otp.simple.common.dtos.UserPaymentDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
 
 /**

@@ -1,6 +1,7 @@
 package hu.otp.simple.common.exceptions;
 
 import hu.otp.simple.common.AbstractErrorMessageException;
+import hu.otp.simple.common.ErrorMessages;
 
 public class ResourceNotFoundException extends AbstractErrorMessageException {
 
@@ -12,8 +13,8 @@ public class ResourceNotFoundException extends AbstractErrorMessageException {
 		return fileName;
 	}
 
-	public ResourceNotFoundException(String fileName) {
-		super();
+	public ResourceNotFoundException(String fileName, ErrorMessages errorMessage) {
+		super(errorMessage);
 		this.fileName = fileName;
 	}
 

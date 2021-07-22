@@ -21,7 +21,9 @@ public enum ErrorMessages {
 																													20404,
 																													"A Partner module nem elérhető!"), SERVICE_UNREACHABLE(
 																															80404,
-																															"A szolgáltatás nem elérhető.");
+																															"A szolgáltatás nem elérhető."), RESOURCE_NOT_FOUND(
+																																	80401,
+																																	"Az erőforrás nem érhető el");
 
 	private Integer code;
 	private String message;

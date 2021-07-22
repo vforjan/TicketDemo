@@ -8,10 +8,6 @@ public class ServiceException extends AbstractErrorMessageException {
 	/** Serial */
 	private static final long serialVersionUID = 7231927706252827337L;
 
-	public ServiceException() {
-		super();
-	}
-
 	public ServiceException(ErrorMessages errorMessage) {
 		super(errorMessage);
 	}
