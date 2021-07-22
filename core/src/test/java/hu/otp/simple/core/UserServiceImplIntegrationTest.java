@@ -1,7 +1,6 @@
 package hu.otp.simple.core;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.everyItem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import hu.otp.simple.common.ErrorMessages;
@@ -29,19 +29,20 @@ import hu.otp.simple.core.repository.UserTokenRepository;
 import hu.otp.simple.core.service.UserService;
 import hu.otp.simple.core.service.impl.UserServiceImpl;
 
+@ActiveProfiles("test-service")
 @RunWith(SpringRunner.class)
 public class UserServiceImplIntegrationTest {
 
 	@TestConfiguration
-	static class EmployeeServiceImplTestContextConfiguration {
+	static class UserServiceImplContextConfiguration {
 		@Bean
-		public UserService employeeService() {
+		public UserService userService() {
 			return new UserServiceImpl();
 		}
 	}
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@MockBean
 	private UserBankCardsRepository userBankCardsRepository;
