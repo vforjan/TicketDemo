@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
+import hu.otp.simple.ticket.controller.RestTemplateEventResponseErrorHandler;
 import hu.otp.simple.ticket.security.SecureRestTemplateCustomizer;
 
 @Service
@@ -35,6 +36,8 @@ public class PartnerClient {
 		String url = partnerUrl + "/getEvents";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateEventResponseErrorHandler());
+
 		costumizer.customize(restTemplate);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -56,11 +59,13 @@ public class PartnerClient {
 		String url = partnerUrl + "/getEvent";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateEventResponseErrorHandler());
+
 		costumizer.customize(restTemplate);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-		// TODO: errorhandling ide!
+
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("id", id);
 		HttpEntity<EventInfo> response = restTemplate.getForEntity(builder.build().encode().toUri(), EventInfo.class);
 
@@ -70,8 +75,8 @@ public class PartnerClient {
 	public Event queryEventDescription(long id) {
 
 		String url = partnerUrl + "/getEventDescription";
-
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateEventResponseErrorHandler());
 		costumizer.customize(restTemplate);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -88,6 +93,8 @@ public class PartnerClient {
 		String url = partnerUrl + "/reserve";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateEventResponseErrorHandler());
+
 		costumizer.customize(restTemplate);
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("EventId", eventId).queryParam("SeatId", seatId);

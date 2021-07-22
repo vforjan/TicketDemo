@@ -1,7 +1,5 @@
 package hu.otp.simple.ticket.clients;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import hu.otp.simple.common.dtos.UserPaymentDto;
 import hu.otp.simple.common.dtos.UserValidationDto;
+import hu.otp.simple.ticket.controller.RestTemplateUserResponseErrorHandler;
 
 /**
  * Client for communicating the core module's microservice
@@ -63,6 +62,7 @@ public class CoreClient {
 		String url = coreUrl + "/payment-validation";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateUserResponseErrorHandler());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

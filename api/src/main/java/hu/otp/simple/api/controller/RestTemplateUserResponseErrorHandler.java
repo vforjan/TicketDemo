@@ -9,9 +9,10 @@ import org.springframework.web.client.ResponseErrorHandler;
 
 import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.exceptions.EventException;
+import hu.otp.simple.common.exceptions.UserException;
 
 @Component
-public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
+public class RestTemplateUserResponseErrorHandler implements ResponseErrorHandler {
 
 	@Override
 	public boolean hasError(ClientHttpResponse httpResponse) throws IOException {
@@ -24,9 +25,9 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 	public void handleError(ClientHttpResponse httpResponse) throws IOException {
 
 		if (httpResponse.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR) {
-			throw new EventException(ErrorMessages.EVENT_NOT_EXIST);
+			throw new UserException(ErrorMessages.NOT_FOUND_TOKEN);
 		} else if (httpResponse.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
-			throw new EventException(ErrorMessages.EVENT_NOT_EXIST);
+			throw new EventException(ErrorMessages.NOT_FOUND_TOKEN);
 		}
 	}
 

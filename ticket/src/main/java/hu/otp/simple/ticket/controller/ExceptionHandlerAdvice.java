@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.dtos.ReservationErrorDto;
 import hu.otp.simple.common.exceptions.EventException;
 import hu.otp.simple.common.exceptions.ReservationException;
+import hu.otp.simple.common.exceptions.UserException;
 
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
@@ -25,11 +27,17 @@ public class ExceptionHandlerAdvice {
 	}
 
 	@ExceptionHandler(EventException.class)
-	public ResponseEntity<ReservationErrorDto> handleEventException(ReservationException e) {
+	public ResponseEntity<ReservationErrorDto> handleEventException(EventException e) {
 
 		log.info("Hiba az események lekérdezésénél! {}", e.getErrorMessage().getSimpleMessage());
 		ReservationErrorDto dto = new ReservationErrorDto(e.getErrorMessage().getCode());
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(dto);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(dto);
+	}
+
+	@ExceptionHandler(UserException.class)
+	public ResponseEntity<ErrorMessages> handleUserException(UserException e) {
+		log.info("Hiba a felhasználó validálása/fizetése során.: {}", e.getErrorMessage().getSimpleMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getErrorMessage());
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import hu.otp.simple.api.controller.RestTemplateUserResponseErrorHandler;
 import hu.otp.simple.common.dtos.UserValidationDto;
 
 /**
@@ -32,6 +33,7 @@ public class CoreClient {
 		String url = coreUrl + "/validate-token";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateUserResponseErrorHandler());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

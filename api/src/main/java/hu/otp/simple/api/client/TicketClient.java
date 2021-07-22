@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import hu.otp.simple.api.controller.RestTemplateEventResponseErrorHandler;
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
@@ -26,6 +27,7 @@ public class TicketClient {
 		String url = ticketUrl + "/getEvents";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateEventResponseErrorHandler());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -46,6 +48,7 @@ public class TicketClient {
 		String url = ticketUrl + "/getEvent";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateEventResponseErrorHandler());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -61,6 +64,7 @@ public class TicketClient {
 		String url = ticketUrl + "/reserve";
 
 		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new RestTemplateEventResponseErrorHandler());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

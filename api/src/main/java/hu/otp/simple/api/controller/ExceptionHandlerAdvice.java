@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import hu.otp.simple.common.ErrorMessages;
 import hu.otp.simple.common.dtos.ReservationErrorDto;
+import hu.otp.simple.common.exceptions.EventException;
 import hu.otp.simple.common.exceptions.ReservationException;
 import hu.otp.simple.common.exceptions.ResourceNotFoundException;
 import hu.otp.simple.common.exceptions.ServiceException;
@@ -37,6 +38,12 @@ public class ExceptionHandlerAdvice {
 	public ResponseEntity<ErrorMessages> handleUserException(UserException e) {
 		log.info("Hiba a felhasználó validálása során.: {}", e.getErrorMessage().getSimpleMessage());
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getErrorMessage());
+	}
+
+	@ExceptionHandler(EventException.class)
+	public ResponseEntity<ErrorMessages> handleEventException(EventException e) {
+		log.info("Hiba az események lekérdezése során.: {}", e.getErrorMessage().getSimpleMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getErrorMessage());
 	}
 
 	@ExceptionHandler(ServiceException.class)
