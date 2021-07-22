@@ -12,10 +12,10 @@ import org.apache.http.ssl.SSLContextBuilder;
 
 public class SecurityUtils {
 
-	@Value("${classpath:keystore/otp-simple.p12}")
-	private Resource trustStore;
-	@Value("${trust.store.password}")
-	private String trustStorePassword;
+	@Value("${secure-rest.trust_store}")
+	Resource trustStore;
+	@Value("${secure-rest.trust_store_password}")
+	String trustStorePassword;
 
 	// public RestTemplate restTemplate() throws Exception {
 	// return new RestTemplate();
