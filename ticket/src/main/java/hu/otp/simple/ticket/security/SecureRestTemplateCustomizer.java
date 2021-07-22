@@ -41,9 +41,8 @@ public class SecureRestTemplateCustomizer implements RestTemplateCustomizer {
 		} catch (Exception e) {
 			log.error("Failed to setup client SSL context.", e);
 			throw new IllegalStateException("Failed to setup client SSL context", e);
-		} finally {
-			Arrays.fill(properties.getTrustStorePassword(), (char) 0);
 		}
+
 		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(sslContext);
 		final HttpClient httpClient = HttpClients.custom().setSSLSocketFactory(socketFactory).build();
 
