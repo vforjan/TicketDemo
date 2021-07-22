@@ -18,18 +18,26 @@ import org.springframework.web.util.UriComponentsBuilder;
 import hu.otp.simple.common.domain.Event;
 import hu.otp.simple.common.domain.EventInfo;
 import hu.otp.simple.common.dtos.ReserveDto;
+import hu.otp.simple.ticket.security.SecurityUtils;
 
 @Service
 public class PartnerClient {
 	@Value("${restclient.url.partner}")
 	private String partnerUrl;
 	private static Random rnd = new Random();
+	SecurityUtils utils = new SecurityUtils();
 
 	public List<Event> queryEvents() {
 
 		String url = partnerUrl + "/getEvents";
 
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = null;
+		try {
+			restTemplate = utils.restTemplate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -49,8 +57,13 @@ public class PartnerClient {
 
 		String url = partnerUrl + "/getEvent";
 
-		RestTemplate restTemplate = new RestTemplate();
-
+		RestTemplate restTemplate = null;
+		try {
+			restTemplate = utils.restTemplate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 		// TODO: errorhandling ide!
@@ -64,7 +77,13 @@ public class PartnerClient {
 
 		String url = partnerUrl + "/getEventDescription";
 
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = null;
+		try {
+			restTemplate = utils.restTemplate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -79,8 +98,13 @@ public class PartnerClient {
 
 		String url = partnerUrl + "/reserve";
 
-		RestTemplate restTemplate = new RestTemplate();
-
+		RestTemplate restTemplate = null;
+		try {
+			restTemplate = utils.restTemplate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("EventId", eventId).queryParam("SeatId", seatId);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -99,8 +123,14 @@ public class PartnerClient {
 
 		int hb = rnd.nextInt();
 		String url = partnerUrl + "/heartbeat";
-		RestTemplate restTemplate = new RestTemplate();
 
+		RestTemplate restTemplate = null;
+		try {
+			restTemplate = utils.restTemplate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url).queryParam("heartbeat", hb).queryParam("client",
 				"OTP-Simple Ticket");
 		HttpEntity<Integer> response = restTemplate.getForEntity(builder.build().encode().toUri(), Integer.class);
